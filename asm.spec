@@ -33,7 +33,7 @@
 
 Name:           asm
 Version:        1.5.3
-Release:        %mkrel 2.2
+Release:        %mkrel 2.3
 Epoch:          0
 Summary:        A code manipulation tool to implement adaptable systems
 License:        BSD-style
@@ -49,8 +49,6 @@ BuildRequires:  jpackage-utils >= 0:1.6
 BuildRequires:  objectweb-anttask
 %if %{gcj_support}
 BuildRequires:  java-gcj-compat-devel >= 0:1.0.31
-Requires(post): java-gcj-compat >= 0:1.0.31
-Requires(postun): java-gcj-compat >= 0:1.0.31
 %else
 BuildArch:      noarch
 %endif
