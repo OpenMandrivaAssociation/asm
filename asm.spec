@@ -33,7 +33,7 @@
 
 Name:           asm
 Version:        1.5.3
-Release:        %mkrel 2.3
+Release:        %mkrel 2.4
 Epoch:          0
 Summary:        A code manipulation tool to implement adaptable systems
 License:        BSD-style
@@ -45,7 +45,7 @@ Source2:        http://asm.objectweb.org/doc/faq.html
 Patch0:         asm-no-classpath-in-manifest.patch
 BuildRequires:  ant
 BuildRequires:  java-devel
-BuildRequires:  jpackage-utils >= 0:1.6
+BuildRequires:  java-rpmbuild >= 0:1.6
 BuildRequires:  objectweb-anttask
 %if %{gcj_support}
 BuildRequires:  java-gcj-compat-devel >= 0:1.0.31
