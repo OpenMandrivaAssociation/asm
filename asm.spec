@@ -52,6 +52,7 @@ BuildRequires:  java-gcj-compat-devel >= 0:1.0.31
 %else
 BuildArch:      noarch
 %endif
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 ASM is a code manipulation tool to implement adaptable systems.
