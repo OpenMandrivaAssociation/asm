@@ -1,4 +1,4 @@
-# Copyright (c) 2000-2005, JPackage Project
+# Copyright (c) 2000-2008, JPackage Project
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@
 
 Name:           asm
 Version:        1.5.3
-Release:        %mkrel 2.4
+Release:        %mkrel 3.0.1
 Epoch:          0
 Summary:        A code manipulation tool to implement adaptable systems
 License:        BSD-style
@@ -42,6 +42,13 @@ Group:          Development/Java
 Source0:        http://download.us.forge.objectweb.org/asm/asm-1.5.3.tar.gz
 Source1:        http://asm.objectweb.org/current/asm-eng.pdf
 Source2:        http://asm.objectweb.org/doc/faq.html
+Source3:        http://repo1.maven.org/maven2/asm/asm/1.5.3/asm-1.5.3.pom
+Source4:        http://repo1.maven.org/maven2/asm/asm-analysis/1.5.3/asm-analysis-1.5.3.pom
+Source5:        http://repo1.maven.org/maven2/asm/asm-attrs/1.5.3/asm-attrs-1.5.3.pom
+Source6:        http://repo1.maven.org/maven2/asm/asm-tree/1.5.3/asm-tree-1.5.3.pom
+Source7:        http://repo1.maven.org/maven2/asm/asm-util/1.5.3/asm-util-1.5.3.pom
+Source8:        http://repo1.maven.org/maven2/asm/asm-xml/1.5.3/asm-xml-1.5.3.pom
+Source9:        http://repo1.maven.org/maven2/asm/kasm/1.5.3/kasm-1.5.3.pom
 Patch0:         asm-no-classpath-in-manifest.patch
 BuildRequires:  ant
 BuildRequires:  java-devel
@@ -79,6 +86,37 @@ rm -rf $RPM_BUILD_ROOT
 
 # jars
 install -d -m 755 $RPM_BUILD_ROOT%{_javadir}/%{name}
+install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/maven2/poms
+
+install -m 644 output/dist/lib/asm-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
+install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm.pom
+%add_to_maven_depmap %{name} %{name} %{version} JPP/%{name} %{name}
+
+install -m 644 output/dist/lib/asm-analysis-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
+install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm-analysis.pom
+%add_to_maven_depmap %{name} %{name}-analysis %{version} JPP/%{name} %{name}-analysis
+
+install -m 644 output/dist/lib/asm-attrs-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
+install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm-attrs.pom
+%add_to_maven_depmap %{name} %{name}-attrs %{version} JPP/%{name} %{name}-attrs
+
+install -m 644 output/dist/lib/asm-tree-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
+install -m 644 %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm-tree.pom
+%add_to_maven_depmap %{name} %{name}-tree %{version} JPP/%{name} %{name}-tree
+
+install -m 644 output/dist/lib/asm-util-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
+install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm-util.pom
+%add_to_maven_depmap %{name} %{name}-util %{version} JPP/%{name} %{name}-util
+
+install -m 644 output/dist/lib/asm-xml-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
+install -m 644 %{SOURCE8} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm-xml.pom
+%add_to_maven_depmap %{name} %{name}-xml %{version} JPP/%{name} %{name}-xml
+
+install -m 644 output/dist/lib/kasm-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
+install -m 644 %{SOURCE9} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-kasm.pom
+%add_to_maven_depmap %{name} k%{name} %{version} JPP/%{name} k%{name}
+
+
 
 for jar in output/dist/lib/*.jar; do
 install -m 644 ${jar} \
@@ -95,44 +133,37 @@ cp -pr output/dist/doc/javadoc/user/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{ve
 
 %{__perl} -pi -e 's/\r$//g' README.txt
 
-%if %{gcj_support}
-%{_bindir}/aot-compile-rpm
-%endif
+%{gcj_compile}
 
 %clean
 %{__rm} -rf %{buildroot}
 
-%if %{gcj_support}
-%post
-%{update_gcjdb}
 
-%postun
-%{clean_gcjdb}
+%post
+%update_maven_depmap
+%if %{gcj_support}
+%{update_gcjdb}
 %endif
 
-%post javadoc
-rm -f %{_javadocdir}/%{name}
-ln -s %{name}-%{version} %{_javadocdir}/%{name}
-
-%postun javadoc
-if [ $1 -eq 0 ]; then
-  rm -f %{_javadocdir}/%{name}
-fi
+%postun
+%update_maven_depmap
+%if %{gcj_support}
+%{clean_gcjdb}
+%endif
 
 %files
 %defattr(0644,root,root,0755)
 %doc README.txt faq.html asm-eng.pdf
 %dir %{_javadir}/%{name}
 %{_javadir}/%{name}/*.jar
-%if %{gcj_support}
-%dir %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/*
-%endif
+%{_datadir}/maven2
+%{_mavendepmapfragdir}
+%{gcj_files}
 
 %files javadoc
 %defattr(0644,root,root,0755)
 %dir %{_javadocdir}/%{name}-%{version}
 %{_javadocdir}/%{name}-%{version}/*
-%ghost %dir %{_javadocdir}/%{name}
+%dir %{_javadocdir}/%{name}
 
 
