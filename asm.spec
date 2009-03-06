@@ -33,7 +33,7 @@
 
 Name:           asm
 Version:        1.5.3
-Release:        %mkrel 3.0.1
+Release:        %mkrel 3.0.2
 Epoch:          0
 Summary:        A code manipulation tool to implement adaptable systems
 License:        BSD-style
