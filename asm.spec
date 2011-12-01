@@ -82,54 +82,54 @@ install -m 644 %{SOURCE2} .
 %ant -Dobjectweb.ant.tasks.path=$(build-classpath objectweb-anttask) jar jdoc
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 # jars
-install -d -m 755 $RPM_BUILD_ROOT%{_javadir}/%{name}
-install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/maven2/poms
+install -d -m 755 %{buildroot}%{_javadir}/%{name}
+install -d -m 755 %{buildroot}%{_datadir}/maven2/poms
 
-install -m 644 output/dist/lib/asm-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
-install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm.pom
+install -m 644 output/dist/lib/asm-%{version}.jar %{buildroot}%{_javadir}/%{name}/
+install -m 644 %{SOURCE3} %{buildroot}%{_datadir}/maven2/poms/JPP.asm-asm.pom
 %add_to_maven_depmap %{name} %{name} %{version} JPP/%{name} %{name}
 
-install -m 644 output/dist/lib/asm-analysis-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
-install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm-analysis.pom
+install -m 644 output/dist/lib/asm-analysis-%{version}.jar %{buildroot}%{_javadir}/%{name}/
+install -m 644 %{SOURCE4} %{buildroot}%{_datadir}/maven2/poms/JPP.asm-asm-analysis.pom
 %add_to_maven_depmap %{name} %{name}-analysis %{version} JPP/%{name} %{name}-analysis
 
-install -m 644 output/dist/lib/asm-attrs-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
-install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm-attrs.pom
+install -m 644 output/dist/lib/asm-attrs-%{version}.jar %{buildroot}%{_javadir}/%{name}/
+install -m 644 %{SOURCE5} %{buildroot}%{_datadir}/maven2/poms/JPP.asm-asm-attrs.pom
 %add_to_maven_depmap %{name} %{name}-attrs %{version} JPP/%{name} %{name}-attrs
 
-install -m 644 output/dist/lib/asm-tree-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
-install -m 644 %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm-tree.pom
+install -m 644 output/dist/lib/asm-tree-%{version}.jar %{buildroot}%{_javadir}/%{name}/
+install -m 644 %{SOURCE6} %{buildroot}%{_datadir}/maven2/poms/JPP.asm-asm-tree.pom
 %add_to_maven_depmap %{name} %{name}-tree %{version} JPP/%{name} %{name}-tree
 
-install -m 644 output/dist/lib/asm-util-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
-install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm-util.pom
+install -m 644 output/dist/lib/asm-util-%{version}.jar %{buildroot}%{_javadir}/%{name}/
+install -m 644 %{SOURCE7} %{buildroot}%{_datadir}/maven2/poms/JPP.asm-asm-util.pom
 %add_to_maven_depmap %{name} %{name}-util %{version} JPP/%{name} %{name}-util
 
-install -m 644 output/dist/lib/asm-xml-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
-install -m 644 %{SOURCE8} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm-xml.pom
+install -m 644 output/dist/lib/asm-xml-%{version}.jar %{buildroot}%{_javadir}/%{name}/
+install -m 644 %{SOURCE8} %{buildroot}%{_datadir}/maven2/poms/JPP.asm-asm-xml.pom
 %add_to_maven_depmap %{name} %{name}-xml %{version} JPP/%{name} %{name}-xml
 
-install -m 644 output/dist/lib/kasm-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
-install -m 644 %{SOURCE9} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-kasm.pom
+install -m 644 output/dist/lib/kasm-%{version}.jar %{buildroot}%{_javadir}/%{name}/
+install -m 644 %{SOURCE9} %{buildroot}%{_datadir}/maven2/poms/JPP.asm-kasm.pom
 %add_to_maven_depmap %{name} k%{name} %{version} JPP/%{name} k%{name}
 
 
 
 for jar in output/dist/lib/*.jar; do
 install -m 644 ${jar} \
-$RPM_BUILD_ROOT%{_javadir}/%{name}/`basename ${jar}`
+%{buildroot}%{_javadir}/%{name}/`basename ${jar}`
 done
 
-(cd $RPM_BUILD_ROOT%{_javadir}/%{name} && for jar in *-%{version}*; do \
+(cd %{buildroot}%{_javadir}/%{name} && for jar in *-%{version}*; do \
 ln -sf ${jar} ${jar/-%{version}/}; done)
 
 # javadoc
-install -p -d -m 755 $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
-cp -pr output/dist/doc/javadoc/user/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
-(cd $RPM_BUILD_ROOT%{_javadocdir} && ln -sf %{name}-%{version} %{name})
+install -p -d -m 755 %{buildroot}%{_javadocdir}/%{name}-%{version}
+cp -pr output/dist/doc/javadoc/user/* %{buildroot}%{_javadocdir}/%{name}-%{version}
+(cd %{buildroot}%{_javadocdir} && ln -sf %{name}-%{version} %{name})
 
 %{__perl} -pi -e 's/\r$//g' README.txt
 
