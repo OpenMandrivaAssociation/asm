@@ -1,0 +1,10 @@
+--- asm-1.5.3/archive/asm-xml.xml.orig	2006-12-16 01:21:34.000000000 +0100
++++ asm-1.5.3/archive/asm-xml.xml	2006-12-16 01:21:54.000000000 +0100
+@@ -9,7 +9,6 @@
+         <attribute name="Implementation-Title" value="ASM XML classes"/>
+         <attribute name="Implementation-Version" value="${product.version}"/> 
+         <attribute name="Implementation-Vendor" value="Eugene Kuleshov"/>
+-        <attribute name="Class-path" value="asm-${product.version}.jar asm-util-${product.version}.jar asm-attrs-${product.version}.jar"/>
+         <attribute name="Main-class" value="org.objectweb.asm.xml.Processor"/>
+       </manifest>
+     </jar>
