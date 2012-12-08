@@ -82,54 +82,54 @@ install -m 644 %{SOURCE2} .
 %ant -Dobjectweb.ant.tasks.path=$(build-classpath objectweb-anttask) jar jdoc
 
 %install
-rm -rf %{buildroot}
+rm -rf $RPM_BUILD_ROOT
 
 # jars
-install -d -m 755 %{buildroot}%{_javadir}/%{name}
-install -d -m 755 %{buildroot}%{_datadir}/maven2/poms
+install -d -m 755 $RPM_BUILD_ROOT%{_javadir}/%{name}
+install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/maven2/poms
 
-install -m 644 output/dist/lib/asm-%{version}.jar %{buildroot}%{_javadir}/%{name}/
-install -m 644 %{SOURCE3} %{buildroot}%{_datadir}/maven2/poms/JPP.asm-asm.pom
+install -m 644 output/dist/lib/asm-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
+install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm.pom
 %add_to_maven_depmap %{name} %{name} %{version} JPP/%{name} %{name}
 
-install -m 644 output/dist/lib/asm-analysis-%{version}.jar %{buildroot}%{_javadir}/%{name}/
-install -m 644 %{SOURCE4} %{buildroot}%{_datadir}/maven2/poms/JPP.asm-asm-analysis.pom
+install -m 644 output/dist/lib/asm-analysis-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
+install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm-analysis.pom
 %add_to_maven_depmap %{name} %{name}-analysis %{version} JPP/%{name} %{name}-analysis
 
-install -m 644 output/dist/lib/asm-attrs-%{version}.jar %{buildroot}%{_javadir}/%{name}/
-install -m 644 %{SOURCE5} %{buildroot}%{_datadir}/maven2/poms/JPP.asm-asm-attrs.pom
+install -m 644 output/dist/lib/asm-attrs-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
+install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm-attrs.pom
 %add_to_maven_depmap %{name} %{name}-attrs %{version} JPP/%{name} %{name}-attrs
 
-install -m 644 output/dist/lib/asm-tree-%{version}.jar %{buildroot}%{_javadir}/%{name}/
-install -m 644 %{SOURCE6} %{buildroot}%{_datadir}/maven2/poms/JPP.asm-asm-tree.pom
+install -m 644 output/dist/lib/asm-tree-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
+install -m 644 %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm-tree.pom
 %add_to_maven_depmap %{name} %{name}-tree %{version} JPP/%{name} %{name}-tree
 
-install -m 644 output/dist/lib/asm-util-%{version}.jar %{buildroot}%{_javadir}/%{name}/
-install -m 644 %{SOURCE7} %{buildroot}%{_datadir}/maven2/poms/JPP.asm-asm-util.pom
+install -m 644 output/dist/lib/asm-util-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
+install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm-util.pom
 %add_to_maven_depmap %{name} %{name}-util %{version} JPP/%{name} %{name}-util
 
-install -m 644 output/dist/lib/asm-xml-%{version}.jar %{buildroot}%{_javadir}/%{name}/
-install -m 644 %{SOURCE8} %{buildroot}%{_datadir}/maven2/poms/JPP.asm-asm-xml.pom
+install -m 644 output/dist/lib/asm-xml-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
+install -m 644 %{SOURCE8} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-asm-xml.pom
 %add_to_maven_depmap %{name} %{name}-xml %{version} JPP/%{name} %{name}-xml
 
-install -m 644 output/dist/lib/kasm-%{version}.jar %{buildroot}%{_javadir}/%{name}/
-install -m 644 %{SOURCE9} %{buildroot}%{_datadir}/maven2/poms/JPP.asm-kasm.pom
+install -m 644 output/dist/lib/kasm-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/
+install -m 644 %{SOURCE9} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.asm-kasm.pom
 %add_to_maven_depmap %{name} k%{name} %{version} JPP/%{name} k%{name}
 
 
 
 for jar in output/dist/lib/*.jar; do
 install -m 644 ${jar} \
-%{buildroot}%{_javadir}/%{name}/`basename ${jar}`
+$RPM_BUILD_ROOT%{_javadir}/%{name}/`basename ${jar}`
 done
 
-(cd %{buildroot}%{_javadir}/%{name} && for jar in *-%{version}*; do \
+(cd $RPM_BUILD_ROOT%{_javadir}/%{name} && for jar in *-%{version}*; do \
 ln -sf ${jar} ${jar/-%{version}/}; done)
 
 # javadoc
-install -p -d -m 755 %{buildroot}%{_javadocdir}/%{name}-%{version}
-cp -pr output/dist/doc/javadoc/user/* %{buildroot}%{_javadocdir}/%{name}-%{version}
-(cd %{buildroot}%{_javadocdir} && ln -sf %{name}-%{version} %{name})
+install -p -d -m 755 $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
+cp -pr output/dist/doc/javadoc/user/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
+(cd $RPM_BUILD_ROOT%{_javadocdir} && ln -sf %{name}-%{version} %{name})
 
 %{__perl} -pi -e 's/\r$//g' README.txt
 
@@ -166,4 +166,93 @@ cp -pr output/dist/doc/javadoc/user/* %{buildroot}%{_javadocdir}/%{name}-%{versi
 %{_javadocdir}/%{name}-%{version}/*
 %dir %{_javadocdir}/%{name}
 
+
+
+
+%changelog
+* Mon May 02 2011 Oden Eriksson <oeriksson@mandriva.com> 0:1.5.3-3.0.6mdv2011.0
++ Revision: 662791
+- mass rebuild
+
+* Mon Nov 29 2010 Oden Eriksson <oeriksson@mandriva.com> 0:1.5.3-3.0.5mdv2011.0
++ Revision: 603185
+- rebuild
+
+* Tue Mar 16 2010 Oden Eriksson <oeriksson@mandriva.com> 0:1.5.3-3.0.4mdv2010.1
++ Revision: 522090
+- rebuilt for 2010.1
+
+* Sun Aug 09 2009 Oden Eriksson <oeriksson@mandriva.com> 0:1.5.3-3.0.3mdv2010.0
++ Revision: 413039
+- rebuild
+
+* Fri Mar 06 2009 Antoine Ginies <aginies@mandriva.com> 0:1.5.3-3.0.2mdv2009.1
++ Revision: 349993
+- 2009.1 rebuild
+
+* Mon Feb 18 2008 Alexander Kurtakov <akurtakov@mandriva.org> 0:1.5.3-3.0.1mdv2008.1
++ Revision: 172094
+- add maven poms and depmaps
+
+  + Olivier Blin <oblin@mandriva.com>
+    - restore BuildRoot
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+
+* Sun Dec 16 2007 Anssi Hannula <anssi@mandriva.org> 0:1.5.3-2.4mdv2008.1
++ Revision: 120828
+- buildrequire java-rpmbuild, i.e. build with icedtea on x86(_64)
+
+* Sat Sep 15 2007 Anssi Hannula <anssi@mandriva.org> 0:1.5.3-2.3mdv2008.0
++ Revision: 87201
+- rebuild to filter out autorequires of GCJ AOT objects
+- remove unnecessary Requires(post) on java-gcj-compat
+
+* Tue Jul 03 2007 Anssi Hannula <anssi@mandriva.org> 0:1.5.3-2.2mdv2008.0
++ Revision: 47576
+- rebuild for new libgcj
+
+
+* Sat Dec 16 2006 David Walluck <walluck@mandriva.org> 1.5.3-2.1mdv2007.0
++ Revision: 97984
+- Import asm
+
+* Fri Dec 15 2006 David Walluck <walluck@mandriva.org> 0:1.5.3-2.1mdv2007.1
+- gcj_support
+
+* Sun Jan 15 2006 David Walluck <walluck@mandriva.org> 0:1.5.3-1.2mdk
+- BuildRequires: java-devel
+
+* Mon Sep 12 2005 David Walluck <walluck@mandriva.org> 0:1.5.3-1.1mdk
+- release
+
+* Fri Jul 01 2005 Gary Benson <gbenson@redhat.com> 0:1.5.3-1jpp_1fc
+- Build into Fedora.
+
+* Fri May 06 2005 Fernando Nasser <fnasser@redhat.com> 0:1.5.3-1jpp_1rh
+- Merge with upstream for upgrade
+
+* Fri Mar 11 2005 Sebastiano Vigna <vigna at acm.org> 0:1.5.3-1jpp
+- Upgrade to 1.5.3
+
+* Tue Feb 01 2005 Ralph Apel <r.apel at r-apel.de> 0:1.4.3-1jpp
+- Upgrade to 1.4.3
+- Require objectweb-anttask instead of owanttask
+
+* Mon Nov 15 2004 Fernando Nasser <fnasser@redhat.com> 0:1.4.1-4jpp_1rh
+- First Red Hat build
+
+* Tue Sep 21 2004 Ralph Apel <r.apel at r-apel.de> 0:1.4.1-4jpp
+- Require owanttask instead of monolog
+
+* Sat Aug 21 2004 Ralph Apel <r.apel at r-apel.de> 0:1.4.1-3jpp
+- Build with ant-1.6.2
+
+* Sun Feb 08 2004 David Walluck <david@anti-microsoft.org> 0:1.4.1-2jpp
+- this release uses new upstream tarball from author
+- add some documentation from website
+
+* Thu Jan 22 2004 David Walluck <david@anti-microsoft.org> 0:1.4.1-1jpp
+- release
 
