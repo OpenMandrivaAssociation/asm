@@ -35,7 +35,7 @@ Summary:	A code manipulation tool to implement adaptable systems
 Name:           asm
 Epoch:          0
 Version:        1.5.3
-Release:        %mkrel 3.0.6
+Release:        3.0.7
 License:        BSD-style
 Url:            http://asm.objectweb.org/
 Group:		Development/Java
