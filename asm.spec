@@ -37,7 +37,7 @@ Epoch:          0
 Version:        1.5.3
 Release:        3.0.13
 License:        BSD-style
-Url:            http://asm.objectweb.org/
+Url:            https://asm.objectweb.org/
 Group:		Development/Java
 Source0:        http://download.us.forge.objectweb.org/asm/asm-1.5.3.tar.gz
 Source1:        http://asm.objectweb.org/current/asm-eng.pdf
